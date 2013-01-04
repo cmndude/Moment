@@ -9,11 +9,11 @@ class Moment extends ObjectBehavior
 
     /**
      * @param string $dateTime
-     * @param string $timezone
+     * @param string $format
      */
-    function let($dateTime, $timezone)
+    function let($dateTime, $format)
     {
-        $this->beConstructedWith($dateTime='now', $timezone='UTC');
+        $this->beConstructedWith($dateTime='now', $format='YYYYMMDD');
     }
 
     function it_should_be_initializable()
@@ -30,5 +30,12 @@ class Moment extends ObjectBehavior
     {
         $tz = $this->getTimeZone();
         $tz->getName()->shouldReturn('UTC');
+    }
+
+    function it_should_be_able_to_set_timezone()
+    {
+        $this->setTimeZone(new \DateTimeZone('Europe/Madrid'));
+        $tz = $this->getTimeZone();
+        $tz->getName()->shouldReturn('Europe/Madrid');
     }
 }
