@@ -47,6 +47,15 @@ class Moment extends ObjectBehavior
         $this->format('Y')->shouldReturn('2013');
     }
 
+//    /**
+//     * @param \Moment\TimeMachine $timeMachine
+//     */
+//    function it_should_call_fromNow($timeMachine)
+//    {
+//        $timeMachine->diff()->shouldBeCalled();
+//        $this->fromNow();
+//    }
+
     // TODO: work on this
 //    function it_should_get_calendar($calendar)
 //    {

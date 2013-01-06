@@ -4,6 +4,7 @@ namespace Moment;
 
 class Calendar
 {
+    /** @var \Moment\Moment */
     private $moment;
 
     function __construct(Moment $moment)
@@ -14,23 +15,20 @@ class Calendar
     /**
      * @param string $type
      * @param int $value
-     * @return Calendar
+     * @return \DateTime
      */
     function subtract($type='day',$value=1)
     {
-        $this->moment->modify('-'.$value.' '.$type);
-
-        return $this;
+        return $this->moment->modify('-'.$value.' '.$type);
     }
 
     /**
      * @param string $type
      * @param int $value
-     * @return Calendar
+     * @return \DateTime
      */
     function add($type='day',$value=1)
     {
-        $this->moment->modify('+'.$value.' '.$type);
-        return $this;
+        return $this->moment->modify('+'.$value.' '.$type);
     }
 }

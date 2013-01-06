@@ -8,6 +8,9 @@ class Moment extends \DateTime
     /** @var \Moment\Calendar */
     private $calendar;
 
+    /** @var \Moment\TimeMachine */
+    private $timeMachine;
+
     /**
      * @param string $dateTime
      * @param string $format
@@ -19,6 +22,7 @@ class Moment extends \DateTime
         parent::format($format);
 
         $this->calendar = new Calendar($this);
+        $this->timeMachine = new TimeMachine($this);
         return $this;
     }
 
@@ -43,5 +47,10 @@ class Moment extends \DateTime
     function clear()
     {
         self::__construct();
+    }
+
+    function fromNow()
+    {
+        return $this->timeMachine->diff();
     }
 }
