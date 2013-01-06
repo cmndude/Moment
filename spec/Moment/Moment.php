@@ -6,14 +6,9 @@ use PHPSpec2\ObjectBehavior;
 
 class Moment extends ObjectBehavior
 {
-
-    /**
-     * @param string $dateTime
-     * @param string $format
-     */
-    function let($dateTime, $format)
+    function let()
     {
-        $this->beConstructedWith($dateTime='now', $format='YYYYMMDD');
+        $this->beConstructedWith($dateTime='now', $format='Y-m-d', $timezone='UTC');
     }
 
     function it_should_be_initializable()
@@ -37,5 +32,20 @@ class Moment extends ObjectBehavior
         $this->setTimeZone(new \DateTimeZone('Europe/Madrid'));
         $tz = $this->getTimeZone();
         $tz->getName()->shouldReturn('Europe/Madrid');
+    }
+
+    function it_should_return_year()
+    {
+        $this->format('Y')->shouldReturn('2013');
+    }
+
+    /**
+     * @param \Moment\Calendar $calendar
+     */
+    function it_should_call_calendar($calendar)
+    {
+        $calendar->calendar()->shouldBeCalled();
+
+        $this->subtract();
     }
 }
