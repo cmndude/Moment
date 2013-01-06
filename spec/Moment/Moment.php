@@ -39,13 +39,17 @@ class Moment extends ObjectBehavior
         $this->format('Y')->shouldReturn('2013');
     }
 
-    /**
-     * @param \Moment\Calendar $calendar
-     */
-    function it_should_call_calendar($calendar)
+    function it_should_reset_to_default_values()
     {
-        $calendar->calendar()->shouldBeCalled();
-
-        $this->subtract();
+        $this->calendar()->add('year', 4);
+        $this->format('Y')->shouldReturn('2017');
+        $this->clear();
+        $this->format('Y')->shouldReturn('2013');
     }
+
+    // TODO: work on this
+//    function it_should_get_calendar($calendar)
+//    {
+//        $this->calendar()->shouldReturn($calendar);
+//    }
 }

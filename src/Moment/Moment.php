@@ -1,16 +1,24 @@
 <?php
 
 namespace Moment;
-use Moment\Calendar;
 
 class Moment extends \DateTime
 {
 
-    function __construct($dateTime = 'now', $format = 'YYYYMMDD', $timezone='UTC')
+    /** @var \Moment\Calendar */
+    private $calendar;
+
+    /**
+     * @param string $dateTime
+     * @param string $format
+     * @param string $timezone
+     */
+    function __construct($dateTime = 'now', $format = 'Y-m-d', $timezone='UTC')
     {
         parent::__construct($dateTime, new \DateTimeZone($timezone));
         parent::format($format);
 
+        $this->calendar = new Calendar($this);
         return $this;
     }
 
@@ -24,9 +32,16 @@ class Moment extends \DateTime
         return parent::format($format);
     }
 
-    function subtract()
+    /**
+     * @return Calendar
+     */
+    function calendar()
     {
-        $c = new Calendar($this);
-        $c->calendar();
+        return $this->calendar;
+    }
+
+    function clear()
+    {
+        self::__construct();
     }
 }
