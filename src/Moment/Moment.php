@@ -51,6 +51,16 @@ class Moment extends \DateTime
 
     function fromNow()
     {
-        return $this->timeMachine->diff();
+        return $this->timeMachine->diff(new \DateTime('now', $this->getTimezone()));
+    }
+
+    function startOf($type='day')
+    {
+        return $this->timeMachine->startOf($type)->diff(new \DateTime('now', $this->getTimezone()));
+    }
+
+    function endOf($type='day')
+    {
+        return $this->timeMachine->endOf($type)->diff(new \DateTime('now', $this->getTimezone()));
     }
 }
