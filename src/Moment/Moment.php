@@ -2,80 +2,88 @@
 
 namespace Moment;
 
-class Moment extends \DateTime
+class Moment
 {
 
-    /** @var \Moment\Calendar */
-    private $calendar;
+    /**
+     * @var \DateTime
+     */
+    private $moment;
 
-    /** @var \Moment\TimeMachine */
-    private $timeMachine;
+    /**
+     * @var string
+     */
+    private $format;
+
+    /**
+     * @var \Closure
+     */
+    //private $momentModifier;
 
     /**
      * @param string $dateTime
      * @param string $format
-     * @param string $timezone
      */
-    function __construct($dateTime = 'now', $format = 'Y-m-d', $timezone='UTC')
+    function __construct($dateTime = 'now', $format = 'Y-m-d')
     {
-        parent::__construct($dateTime, new \DateTimeZone($timezone));
-        parent::format($format);
+        $this->format = $format;
+        $this->moment = new \DateTime($dateTime);
+    }
 
-        $this->calendar     = new Calendar($this);
-        $this->timeMachine  = new TimeMachine($this);
+    /**
+     * @return string
+     */
+    public function calendar()
+    {
+        return $this->moment->format($this->format);
+    }
+
+    /**
+     * @param string $type
+     * @param $value
+     * @return Moment
+     */
+    public function add($type='day',$value)
+    {
+        $newMoment = clone $this->moment;
+        $newMoment->modify('+'.$value.' '.$type);
+        return new self($newMoment->format($this->format));
+    }
+
+    /**
+     * @param string $type
+     * @return Moment
+     */
+    public function startOf($type='day')
+    {
+//        $this->momentModifier = function($moment) use ($type) {
+//            /** @var \DateTime $moment */
+//            $moment->setTime(0,0,0);
+//        };
+        $this->momentModify($type, $this->moment);
         return $this;
     }
 
     /**
-     * @param null $format
-     * @return string
-     */
-    function format($format = NULL)
-    {
-        if(is_null($format)) $format = parent::ISO8601;
-        return parent::format($format);
-    }
-
-    /**
-     * @return Calendar
-     */
-    function calendar()
-    {
-        return $this->calendar;
-    }
-
-    /**
-     * Re-init the parent object with clean default settings
-     */
-    function clear()
-    {
-        // TODO: this most probably could be improved
-        parent::__construct($dateTime = 'now', $this->getTimezone());
-    }
-
-    /**
      * @return \DateInterval
      */
-    function fromNow()
+    public function fromNow()
     {
-        return $this->timeMachine->diff(new \DateTime('now', $this->getTimezone()));
+        $now = new \DateTime;
+        $newMoment = clone $now;
+        //call_user_func($this->momentModifier, $newMoment);
+        $this->momentModify('day', $newMoment);
+        return $now->diff($newMoment);
     }
 
     /**
-     * @param string $type
-     * @return \DateInterval
+     * @param $type
+     * @param \DateTime $moment
+     * @return Moment
      */
-    function startOf($type='day')
+    private function momentModify($type, $moment)
     {
-        return $this->timeMachine->startOf($type)->diff(new \DateTime('now', $this->getTimezone()));
-    }
-
-    /**
-     * @param string $type
-     * @return \DateInterval
-     */
-    function endOf($type='day')
-    {
-        return $this->timeMachine->endOf($type)->diff(new \DateTime('now', $this->getTimezone()));
+        $moment->setTime(0,0,0);
+        return $this;
     }
 }

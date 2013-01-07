@@ -8,7 +8,7 @@ class Moment extends ObjectBehavior
 {
     function let()
     {
-        $this->beConstructedWith($dateTime='now', $format='Y-m-d', $timezone='UTC');
+        $this->beConstructedWith('2012-01-31', 'Y-m-d');
     }
 
     function it_should_be_initializable()
@@ -16,49 +16,37 @@ class Moment extends ObjectBehavior
         $this->shouldHaveType('Moment\Moment');
     }
 
-    function it_should_be_instance_of_datetime_class()
+    function it_should_be_possible_to_construct_with_custom_time_and_format()
     {
-        $this->shouldBeAnInstanceOf('DateTime');
+        $this->calendar()->shouldBe('2012-01-31');
     }
 
-    function it_should_have_utc_timezone_by_default()
+    function it_should_add_one_day_to_moment()
     {
-        $tz = $this->getTimeZone();
-        $tz->getName()->shouldReturn('UTC');
+        $this->add('day', 1)->calendar()->shouldBe('2012-02-01');
     }
 
-    function it_should_be_able_to_set_timezone()
+    function it_should_return_cloned_object_of_current_moment()
     {
-        $this->setTimeZone(new \DateTimeZone('Europe/Madrid'));
-        $tz = $this->getTimeZone();
-        $tz->getName()->shouldReturn('Europe/Madrid');
+        $this->add('day', 1);
+        $this->add('day', 1)->calendar()->shouldBe('2012-02-01');
     }
 
-    function it_should_return_year()
+    function it_should_return_time_passed_since_start_of_day()
     {
-        $this->format('Y')->shouldReturn('2013');
+        $time = new \DateTime('2012-01-02 13:15:45');
+        timecop_freeze($time->getTimestamp());
+        $moment = $this->startOf('day')->fromNow();
+        $moment->format('%H:%I:%S')->shouldBe('13:15:45');
+        timecop_return();
     }
 
-    function it_should_reset_to_default_values()
+    function it_should_return_time_from_default_moment()
     {
-        $this->calendar()->add('year', 4);
-        $this->format('Y')->shouldReturn('2017');
-        $this->clear();
-        $this->format('Y')->shouldReturn('2013');
+        $time = new \DateTime('2012-01-02 13:15:45');
+        timecop_freeze($time->getTimestamp());
+        $moment = $this->fromNow();
+        $moment->format('%H:%I:%S')->shouldBe('13:15:45');
+        timecop_return();
     }
-
-//    /**
-//     * @param \Moment\TimeMachine $timeMachine
-//     */
-//    function it_should_call_fromNow($timeMachine)
-//    {
-//        $timeMachine->diff()->shouldBeCalled();
-//        $this->fromNow();
-//    }
-
-    // TODO: work on this
-//    function it_should_get_calendar($calendar)
-//    {
-//        $this->calendar()->shouldReturn($calendar);
-//    }
 }
