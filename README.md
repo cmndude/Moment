@@ -7,15 +7,20 @@ P.S. This is a sample project.
 
 
 Requirements
-============
+------------
 For running specs you need to install timecomp php extension which can be found here: https://github.com/hnw/php-timecop
 
 Installation
-============
+------------
 
 1. curl -s https://getcomposer.org/installer | php
 2. php composer.phar install --dev
 
 Running tests
-============
+------------
 After installing composer and it's dependencies you should run bin/phpspec run in a root folder.
+
+
+Current Status
+--------------
+For now it's just return DateInterval object.
