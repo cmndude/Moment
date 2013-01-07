@@ -18,7 +18,7 @@ class Moment
     /**
      * @var \Closure
      */
-    //private $momentModifier;
+    private $momentModifier;
 
     /**
      * @param string $dateTime
@@ -40,7 +40,7 @@ class Moment
 
     /**
      * @param string $type
-     * @param $value
+     * @param int $value
      * @return Moment
      */
     public function add($type='day',$value)
@@ -52,15 +52,68 @@ class Moment
 
     /**
      * @param string $type
+     * @param int $value
+     * @return Moment
+     */
+    public function subtract($type='day',$value)
+    {
+        $newMoment = clone $this->moment;
+        $newMoment->modify('-'.$value.' '.$type);
+        return new self($newMoment->format($this->format));
+    }
+
+
+    /**
+     * @param string $type
      * @return Moment
      */
     public function startOf($type='day')
     {
-//        $this->momentModifier = function($moment) use ($type) {
-//            /** @var \DateTime $moment */
-//            $moment->setTime(0,0,0);
-//        };
-        $this->momentModify($type, $this->moment);
+        $this->type = $type;
+        $this->momentModifier = function($moment) use ($type) {
+            /** @var \DateTime $moment */
+            switch($type)
+            {
+                case 'day':
+                    $moment->setTime(0,0,0);
+                    break;
+                case 'hour':
+                    $moment->setTime($moment->format('H'),0,0);
+                    break;
+                case 'minute':
+                    $moment->setTime($moment->format('H'),$moment->format('i'),0);
+                    break;
+                default:
+                    break;
+            }
+        };
+        return $this;
+    }
+
+    public function endOf($type='day')
+    {
+        $this->type = $type;
+        $this->callCallback = true;
+        $this->momentModifier = function($moment) use ($type) {
+            /** @var \DateTime $moment */
+            switch($type)
+            {
+                case 'day':
+                    $moment->setTime(0,0,0);
+                    $moment->modify('+1 day');
+                    break;
+                case 'hour':
+                    $moment->setTime($moment->format('H'),0,0);
+                    $moment->modify('+1 hour');
+                    break;
+                case 'minute':
+                    $moment->setTime($moment->format('H'),$moment->format('i'),0);
+                    $moment->modify('+1 minutes');
+                    break;
+                default:
+                    break;
+            }
+        };
         return $this;
     }
 
@@ -71,19 +124,9 @@ class Moment
     {
         $now = new \DateTime;
         $newMoment = clone $now;
-        //call_user_func($this->momentModifier, $newMoment);
-        $this->momentModify('day', $newMoment);
+        if(is_object($this->momentModifier) && ($this->momentModifier instanceof \Closure)) {
+            call_user_func($this->momentModifier, $newMoment);
+        }
         return $now->diff($newMoment);
-    }
-
-    /**
-     * @param $type
-     * @param \DateTime $moment
-     * @return Moment
-     */
-    private function momentModify($type, $moment)
-    {
-        $moment->setTime(0,0,0);
-        return $this;
     }
 }
