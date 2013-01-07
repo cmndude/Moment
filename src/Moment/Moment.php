@@ -126,6 +126,8 @@ class Moment
         $newMoment = clone $now;
         if(is_object($this->momentModifier) && ($this->momentModifier instanceof \Closure)) {
             call_user_func($this->momentModifier, $newMoment);
+        } else {
+            $newMoment = $this->moment;
         }
         return $now->diff($newMoment);
     }

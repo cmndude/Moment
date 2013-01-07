@@ -91,12 +91,12 @@ class Moment extends ObjectBehavior
         timecop_return();
     }
 
-//    function it_should_return_time_from_default_moment()
-//    {
-//        $time = new \DateTime('2012-01-02 13:15:45');
-//        timecop_freeze($time->getTimestamp());
-//        $moment = $this->fromNow();
-//        $moment->format('%H:%I:%S')->shouldBe('13:15:45');
-//        timecop_return();
-//    }
+    function it_should_return_time_from_default_moment()
+    {
+        $time = new \DateTime('2012-01-02 13:15:45');
+        timecop_freeze($time->getTimestamp());
+        $moment = $this->fromNow();
+        $moment->format('%H:%I:%S')->shouldBe('10:44:15');
+        timecop_return();
+    }
 }
