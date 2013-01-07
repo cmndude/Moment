@@ -77,11 +77,36 @@ class TimeMachine extends ObjectBehavior
     /**
      * @param \Moment\Moment $moment
      * @param \DateTime $dateTime
-     * @param \DateInterval $interval
-     * @return void
      */
-    function it_should_get_remaining_interval_for_day($moment, $dateTime, $interval)
+    function it_should_get_remaining_interval_for_day($moment, $dateTime)
     {
+        $moment->modify('+1 day')->shouldBeCalled();
+        $moment->setTime(0,0,0)->shouldBeCalled();
         $this->endOf('day')->diff($dateTime);
+    }
+
+    /**
+     * @param \Moment\Moment $moment
+     * @param \DateTime $dateTime
+     */
+    function it_should_get_remaining_interval_for_hour($moment, $dateTime)
+    {
+        $moment->format('H')->willReturn('23');
+        $moment->modify('+1 hour')->shouldBeCalled();
+        $moment->setTime(23,0,0)->shouldBeCalled();
+        $this->endOf('hour')->diff($dateTime);
+    }
+
+    /**
+     * @param \Moment\Moment $moment
+     * @param \DateTime $dateTime
+     */
+    function it_should_get_remaining_interval_for_minute($moment, $dateTime)
+    {
+        $moment->format('H')->willReturn('23');
+        $moment->format('i')->willReturn('45');
+        $moment->modify('+1 minutes')->shouldBeCalled();
+        $moment->setTime(23,45,0)->shouldBeCalled();
+        $this->endOf('minute')->diff($dateTime);
     }
 }
