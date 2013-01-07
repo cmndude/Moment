@@ -6,6 +6,10 @@ This is the PHP implementation of Moment.js (http://www.momentjs.com) using phps
 P.S. This is a sample project.
 
 
+Requirements
+============
+For running specs you need to install timecomp php extension which can be found here: https://github.com/hnw/php-timecop
+
 Installation
 ============
 
