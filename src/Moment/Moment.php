@@ -21,8 +21,8 @@ class Moment extends \DateTime
         parent::__construct($dateTime, new \DateTimeZone($timezone));
         parent::format($format);
 
-        $this->calendar = new Calendar($this);
-        $this->timeMachine = new TimeMachine($this);
+        $this->calendar     = new Calendar($this);
+        $this->timeMachine  = new TimeMachine($this);
         return $this;
     }
 
@@ -44,21 +44,36 @@ class Moment extends \DateTime
         return $this->calendar;
     }
 
+    /**
+     * Re-init the parent object with clean default settings
+     */
     function clear()
     {
-        self::__construct();
+        // TODO: this most probably could be improved
+        parent::__construct($dateTime = 'now', $this->getTimezone());
     }
 
+    /**
+     * @return \DateInterval
+     */
     function fromNow()
     {
         return $this->timeMachine->diff(new \DateTime('now', $this->getTimezone()));
     }
 
+    /**
+     * @param string $type
+     * @return \DateInterval
+     */
     function startOf($type='day')
     {
         return $this->timeMachine->startOf($type)->diff(new \DateTime('now', $this->getTimezone()));
     }
 
+    /**
+     * @param string $type
+     * @return \DateInterval
+     */
     function endOf($type='day')
     {
         return $this->timeMachine->endOf($type)->diff(new \DateTime('now', $this->getTimezone()));

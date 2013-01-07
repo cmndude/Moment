@@ -31,6 +31,7 @@ class TimeMachine
      */
     function startOf($type='day')
     {
+        // TODO: not the best implementation
         $this->moment->clear();
         switch($type) {
             case 'day':
@@ -53,7 +54,9 @@ class TimeMachine
      */
     function endOf($type='day')
     {
+        // TODO: not the best implementation
         $this->moment->clear();
+        // TODO: describe this in spec
         $this->moment->setTimezone(new \DateTimeZone(date_default_timezone_get()));
         switch($type) {
             case 'day':
@@ -65,7 +68,7 @@ class TimeMachine
                 $this->moment->modify('+1 hour');
                 break;
             case 'minute':
-                $this->moment->setTime($this->moment->format('H'),$this->moment->format('i'),0);
+                $this->moment->setTime($this->moment->format('H'), $this->moment->format('i'),0);
                 $this->moment->modify('+1 minutes');
                 break;
         }
