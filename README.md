@@ -15,3 +15,7 @@ Installation
 
 1. curl -s https://getcomposer.org/installer | php
 2. php composer.phar install --dev
+
+Running tests
+============
+After installing composer and it's dependencies you should run bin/phpspec run in a root folder.
