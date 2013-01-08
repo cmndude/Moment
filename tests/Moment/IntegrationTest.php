@@ -42,7 +42,7 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
      */
     function subtractDays()
     {
-        $this->assertEquals('2011-12-30', $this->moment->subtract('day',2)->calendar());
+        $this->assertEquals('2011-12-30', $this->moment->subtract('day', 2)->calendar());
     }
 
     /**

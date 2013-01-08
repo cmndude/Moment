@@ -4,7 +4,6 @@ namespace Moment;
 
 class Moment
 {
-
     /**
      * @var \DateTime
      */
@@ -35,6 +34,7 @@ class Moment
      */
     public function calendar()
     {
+        // TODO: provide human readable format here and later internalization
         return $this->moment->format($this->format);
     }
 
@@ -61,7 +61,6 @@ class Moment
         $newMoment->modify('-'.$value.' '.$type);
         return new self($newMoment->format($this->format));
     }
-
 
     /**
      * @param string $type
@@ -130,6 +129,7 @@ class Moment
         } else {
             $newMoment = $this->moment;
         }
+        // TODO: provide human readable format here and later internalization
         return $now->diff($newMoment);
     }
 }
