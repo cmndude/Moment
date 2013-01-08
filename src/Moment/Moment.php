@@ -89,6 +89,10 @@ class Moment
         return $this;
     }
 
+    /**
+     * @param string $type
+     * @return Moment
+     */
     public function endOf($type='day')
     {
         $this->momentModifier = function($moment) use ($type) {
