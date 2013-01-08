@@ -19,7 +19,7 @@ Installation
 Running tests
 ------------
 After installing composer and it's dependencies you should run from a root folder:
- 1. bin/phpspec run.
+ 1. bin/phpspec run
  2. bin/phpunit tests
 
 
