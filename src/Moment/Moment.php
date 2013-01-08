@@ -69,7 +69,6 @@ class Moment
      */
     public function startOf($type='day')
     {
-        $this->type = $type;
         $this->momentModifier = function($moment) use ($type) {
             /** @var \DateTime $moment */
             switch($type)
@@ -92,8 +91,6 @@ class Moment
 
     public function endOf($type='day')
     {
-        $this->type = $type;
-        $this->callCallback = true;
         $this->momentModifier = function($moment) use ($type) {
             /** @var \DateTime $moment */
             switch($type)
