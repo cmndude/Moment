@@ -8,14 +8,12 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
     /** @var \Moment\Moment */
     private $moment;
 
-    private $time;
-
     function setUp()
     {
         $this->moment = new Moment('2012-01-01');
         // freeze time
-        $this->time = new \DateTime('2012-01-01 13:15:45');
-        timecop_freeze($this->time->getTimestamp());
+        $time = new \DateTime('2012-01-01 13:15:45');
+        timecop_freeze($time->getTimestamp());
     }
 
     function tearDown()
@@ -38,7 +36,6 @@ class IntegrationTest extends \PHPUnit_Framework_TestCase
     {
         $this->assertEquals('2012-01-10', $this->moment->add('day', 9)->calendar());
     }
-
 
     /**
      * @test
